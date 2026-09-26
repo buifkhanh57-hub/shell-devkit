@@ -1,0 +1,109 @@
+# =============================================================================
+# sysops configuration example
+#
+# Copy this file to one of the config locations and edit it:
+#   /etc/sysops/sysops.conf            (system-wide)
+#   <install root>/conf/sysops.conf    (per installation)
+#   ~/.config/sysops/sysops.conf       (per user)
+# or point SYOPS_CONFIG at an explicit file / pass --config FILE.
+#
+# Syntax: KEY=VAL, one per line.  '#' or ';' starts a comment.  Values may be
+# single- or double-quoted (quotes are stripped).  Keys are [A-Za-z_][A-Za-z0-9_]*.
+# File contents are NEVER eval'd.  Every value can also be provided through
+# the environment as SYOPS_<KEY> (e.g. SYOPS_NOTIFY_LOG=/tmp/alerts.log).
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# General
+# -----------------------------------------------------------------------------
+# Append every levelled log line (INFO/WARN/ERROR) to a file.
+#LOG_FILE=/var/log/sysops.log
+
+# -----------------------------------------------------------------------------
+# monitor (threshold checks; exit code = worst state)
+# -----------------------------------------------------------------------------
+# Disk usage thresholds, percent (0-100).
+#MONITOR_DISK_WARN=80
+#MONITOR_DISK_CRIT=90
+
+# Memory + swap usage thresholds, percent.
+#MONITOR_MEM_WARN=80
+#MONITOR_MEM_CRIT=90
+
+# Load-average thresholds, percent of total core capacity (100 == 1.0/core).
+#MONITOR_LOAD_WARN=70
+#MONITOR_LOAD_CRIT=200
+
+# -----------------------------------------------------------------------------
+# cleanup (dry-run by default; --apply deletes)
+# -----------------------------------------------------------------------------
+# Age threshold in days for cleanup candidates.
+#CLEANUP_OLDER_THAN=7
+
+# Comma-separated file-name patterns treated as disposable.
+#CLEANUP_INCLUDE_PATTERNS=*.tmp,*.log,*.bak,*.old,*.swp,*.cache~,core,core.[0-9]*
+
+# -----------------------------------------------------------------------------
+# audit (security quick-audit)
+# -----------------------------------------------------------------------------
+# Report home directories larger than this many megabytes.
+#AUDIT_HOME_THRESHOLD_MB=500
+
+# -----------------------------------------------------------------------------
+# backup (tar+gzip archives)
+# -----------------------------------------------------------------------------
+# Default destination for `sysops backup` when -d/--dest is not given.
+#BACKUP_DEST=/var/backups
+# Rotation window: keep the N newest archives.
+#BACKUP_KEEP=5
+# gzip compression level 1-9.
+#BACKUP_GZIP=6
+
+# -----------------------------------------------------------------------------
+# logs (error keyword summary)
+# -----------------------------------------------------------------------------
+# How many log lines to scan.
+#LOGS_LINES=2000
+# journalctl time span for the journal source (1h, 24h, 7d, 2w, ...).
+#LOGS_SINCE=24h
+
+# -----------------------------------------------------------------------------
+# report (system report)
+# -----------------------------------------------------------------------------
+# Rows shown in the "Top processes" section.
+#REPORT_TOP_PROCS=10
+
+# -----------------------------------------------------------------------------
+# net (sockets / connections / stats)
+# -----------------------------------------------------------------------------
+# Maximum rows listed by `sysops net listen`.
+#NET_MAX_ROWS=100
+# Peers shown by `sysops net conns --top` by default.
+#NET_CONNS_TOP=10
+
+# -----------------------------------------------------------------------------
+# notify (alert log + optional webhook)
+# -----------------------------------------------------------------------------
+# Where alerts are appended (default: /var/log/sysops/alerts.log when writable,
+# otherwise ~/.local/state/sysops/alerts.log).
+#NOTIFY_LOG=/var/log/sysops/alerts.log
+
+# Optional webhook: when set, `sysops notify send` also POSTs the alert as
+# JSON.  Leave unset to keep alerts local-only.  Requires curl when used.
+#NOTIFY_WEBHOOK_URL=https://hooks.example.com/services/XXX/YYY/ZZZ
+# Webhook delivery timeout in seconds.
+#NOTIFY_WEBHOOK_TIMEOUT=5
+# `notify check --stale-min` default (0 = consider every entry).
+#NOTIFY_STALE_MIN=0
+
+# -----------------------------------------------------------------------------
+# updates (offline pending-update scan)
+# -----------------------------------------------------------------------------
+# Maximum package names printed by `sysops updates list`.
+#UPDATES_MAX_LIST=25
+
+# -----------------------------------------------------------------------------
+# pkg (package inventory)
+# -----------------------------------------------------------------------------
+# Reserved for future row limits; currently informational commands.
+#PKG_MAX_ROWS=50
